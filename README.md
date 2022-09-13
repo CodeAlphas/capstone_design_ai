@@ -18,8 +18,8 @@
 |preprocess_data.py|음성 감정인식 모델 훈련에 사용될 음성 데이터 처리관련 코드|
 |extract_data.py|모델 훈련에 사용될 음성 데이터에서 특성값을 추출하는 코드|
 |check_trained_model.py|훈련된 음성 감정인식 모델의 동작을 확인하는 코드|
-|convert_tflite.py|.h5 파일을 .pb 파일로 변환하는 코드|
-|convert_tflite2.py|.pb파일을 .tflite 파일로 변환하는 코드|
+|convert_tflite.py| h5 파일을 pb 파일로 변환하는 코드|
+|convert_tflite2.py| pb 파일을 tflite 파일로 변환하는 코드|
 
 - Java 파일
 
@@ -27,10 +27,11 @@
 |------|---|
 |Classifier.java|사용자의 음성에 실린 감정을 분류하는 코드|
 |Result.java|사용자의 음성에 실린 감정을 분류하는 코드|
-|JLibrosa.java|사용자의 음성 데이터에서 특징값을 추출히는 코드|
+|JLibrosa.java|사용자의 음성 데이터에서 특징값을 추출하는 코드|
 |AudioFeatureExtraction.java|사용자의 음성 데이터에서 특징값을 추출하는 코드|
 |FileFormatNotSupportedException.java|예외처리 관련 코드|
 |WavFileException.java|예외처리 관련 코드|
+|WavFile.java|WAV 파일 처리 관련 코드|
 
 ## 음성 감정 인식 모델 훈련에 사용된 Dataset
 - Emo-DB(Berlin Database of Emotional Speech)
@@ -45,7 +46,7 @@
 ## 구해줘 프로젝트에 적용 과정
 1. 음성 데이터셋을 PC의 지정된 경로에 저장(preprocess_data.py 파일에서 모델 훈련에 사용할 데이터셋과 저장 경로 수정 가능)
 2. main.py 파일에서 모델 생성 및 훈련 -> h5 파일 생성
-3. convert_tflite.py, convert_tflite2.py 파일을 통해 h5 파일을 tflite 파일로 변환(학습한 모델을 텐서플로우 라이트 버전으로 변환)
+3. convert_tflite.py, convert_tflite2.py 파일을 통해 h5 파일을 tflite 파일로 변환(h5 모델을 텐서플로우 라이트 모델로 변환)
 4. 안드로이드 프로젝트에 assets 폴더를 만들고 변환한 모델을 저장
 5. 텐서플로우 라이트 관련 모듈을 사용할 수 있도록 gradle 파일에 관련 내용을 추가
 6. Chroma feature 추출 코드를 추가한 JLibrosa 라이브러리를 이용하여 사용자의 음성 데이터에서 특징값(MFCC, MEL Spectrogram Frequency, Chroma feature) 추출
@@ -58,7 +59,7 @@
 - [시연 영상 링크](https://youtu.be/YhQe7rPS-oM)
 
 ## 한계
-- 완성된 음성 감정인식 모델의 정확도는 약 62%입니다. 물론 구해줘 앱은 사용자가 특정 키워드를 말하였을 때만 감정을 분석하고 112에 신고 문자가 보내지더라도 주변 상황이 녹음되어 함께 보내지기에 오작동으로 인해 경찰이 출동하는 일은 최대한 방지할 수 있습니다. 그러나 그럼에도 불구하고 상용화 하기에는 어려운 정확도 입니다.
+- 완성된 음성 감정인식 모델의 정확도는 약 62%입니다. 물론 구해줘 앱은 사용자가 특정 키워드를 말하였을 때만 감정을 분석하고 112에 신고 문자가 보내지더라도 주변 상황이 녹음되어 함께 보내지기에 오작동으로 인해 경찰이 출동하는 일은 최대한 방지할 수 있습니다. 그러나 그럼에도 불구하고 상용화 하기에는 어려운 정확도입니다.
 
 ## 개선 방법
 - 음성 감정 인식 모델의 정확도를 높이기 위해서는 첫째, 양질의 한국어 음성 감정 데이터가 필요하다고 생각합니다. 인터넷에서 구할 수 있는 데이터는 외국어 음성 감정 데이터 위주이고 그 마저도 수가 적습니다. 만약 다양한 연령대의 발화자가 다양한 감정으로 말하는 한국어 데이터셋이 확보된다면 음성 감정인식 모델의 성능을 높일 수 있다고 생각합니다.
